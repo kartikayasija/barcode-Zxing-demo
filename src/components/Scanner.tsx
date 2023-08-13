@@ -3,6 +3,7 @@ import { MouseEventHandler, useState,useRef } from "react";
 
 export const Scanner: React.FC = () => {
   const [result, setResult] = useState<string>();
+  const [err,setErr] = useState<string>("");
   const reader = new BrowserMultiFormatReader();
   const videoRef = useRef<HTMLVideoElement>(null)
   const startScanner: MouseEventHandler<HTMLButtonElement> = async (e) => {
@@ -18,11 +19,20 @@ export const Scanner: React.FC = () => {
         facingMode: "environment",
       },
     };
-    if(videoRef.current){
-      const result = await reader.decodeOnceFromConstraints(constraints,videoRef.current);
-      if (result) {
-        setResult(result.getText());
+    try{
+      if(videoRef.current){
+        const result = await reader.decodeOnceFromConstraints(constraints,videoRef.current);
+        if (result) {
+          setResult(result.getText());
+        } else{
+          setErr("No Resultttt")
+        }
+      } else{
+        setErr("No Camera Found")
       }
+    } catch(err){
+      console.log(err)
+      setErr("No Result")
     }
   };
   return (
@@ -37,6 +47,7 @@ export const Scanner: React.FC = () => {
       </div>
 
       {result && <h1>Result : {result}</h1>}
+      {err && <p>{err}</p>}
     </>
   );
 };
