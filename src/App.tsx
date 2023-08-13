@@ -1,4 +1,3 @@
-import './App.css'
 import { Scanner } from './components/Scanner'
 
 function App() {
