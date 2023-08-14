@@ -24,6 +24,7 @@ export const Scanner: React.FC = () => {
         const result = await reader.decodeOnceFromConstraints(constraints,videoRef.current);
         if (result) {
           setResult(result.getText());
+          setErr("")
         } else{
           setErr("No Resultttt")
         }
